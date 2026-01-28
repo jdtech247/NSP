@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Star Phoenix - Volunteer Coordination</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-blue: #1e3a5f;
+            --warm-orange: #e67e22;
+            --soft-amber: #f39c12;
+            --light-cream: #fdf8f3;
+            --warm-gray: #5a5a5a;
+            --success-green: #27ae60;
+            --alert-red: #e74c3c;
+            --border-light: #e0d5c7;
+            --shadow-soft: 0 4px 12px rgba(30, 58, 95, 0.08);
+            --shadow-medium: 0 8px 24px rgba(30, 58, 95, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, var(--light-cream) 0%, #fff 100%);
+            color: var(--warm-gray);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--deep-blue) 0%, #2c5282 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-medium);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--warm-orange);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            padding: 3rem;
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border-light);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--warm-orange), var(--soft-amber));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .login-header h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--deep-blue);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: var(--warm-gray);
+            font-size: 1rem;
+        }
+        
+        .form-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--light-cream);
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: transparent;
+            color: var(--warm-gray);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--deep-blue);
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--deep-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--warm-orange);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .category-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-checkbox:hover {
+            border-color: var(--warm-orange);
+            background: rgba(230, 126, 34, 0.05);
+        }
+        
+        .category-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .category-checkbox.checked {
+            border-color: var(--warm-orange);
+            background: rgba(230, 126, 34, 0.1);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--warm-orange), var(--soft-amber));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem;
+        }
+        
+        .dashboard-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-light);
+        }
+        
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--warm-gray);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .nav-tab:hover {
+            color: var(--warm-orange);
+        }
+        
+        .nav-tab.active {
+            color: var(--warm-orange);
+            border-bottom-color: var(--warm-orange);
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        
+        .stat-label {
+            color: var(--warm-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+        }
+        
+        .stat-change {
+            font-size: 0.85rem;
+            color: var(--success-green);
+            margin-top: 0.5rem;
+        }
+        
+        /* Request Cards */
+        .requests-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .request-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+        }
+        
+        .request-card:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+        
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        
+        .request-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            color: var(--deep-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .request-category {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background: var(--light-cream);
+            color: var(--warm-orange);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--warm-orange);
+        }
+        
+        .request-status {
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+        
+        .status-assigned {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #17a2b8;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid var(--success-green);
+        }
+        
+        .request-details {
+            color: var(--warm-gray);
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+        
+        .request-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--warm-gray);
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .request-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-accept {
+            flex: 1;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--success-green), #229954);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-accept:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .btn-secondary {
+            flex: 1;
+            padding: 0.75rem;
+            background: white;
+            color: var(--deep-blue);
+            border: 2px solid var(--deep-blue);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--deep-blue);
+            color: white;
+        }
+        
+        .btn-complete {
+            background: linear-gradient(135deg, var(--success-green), #229954);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--alert-red);
+            color: white;
+            border: none;
+        }
+        
+        .requester-info {
+            background: var(--light-cream);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid var(--border-light);
+        }
+        
+        .requester-info h4 {
+            color: var(--deep-blue);
+            margin-bottom: 0.75rem;
+        }
+        
+        .info-row {
+            display: flex;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--deep-blue);
+            width: 120px;
+        }
+        
+        .info-value {
+            color: var(--warm-gray);
+            flex: 1;
+        }
+        
+        /* Calendar */
+        .calendar {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .calendar-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            color: var(--deep-blue);
+        }
+        
+        .calendar-events {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .calendar-event {
+            padding: 1rem;
+            background: var(--light-cream);
+            border-left: 4px solid var(--warm-orange);
+            border-radius: 8px;
+        }
+        
+        .event-time {
+            font-weight: 600;
+            color: var(--deep-blue);
+            margin-bottom: 0.25rem;
+        }
+        
+        .event-title {
+            color: var(--warm-gray);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--warm-gray);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        .empty-state h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--deep-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--warm-gray);
+        }
+        
+        .spinner {
+            border: 3px solid var(--border-light);
+            border-top: 3px solid var(--warm-orange);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error Messages */
+        .error-message {
+            background: #fee;
+            border: 1px solid var(--alert-red);
+            color: var(--alert-red);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message {
+            background: #efe;
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        /* Volunteer List */
+        .volunteer-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .volunteer-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .volunteer-info h4 {
+            color: var(--deep-blue);
+            margin-bottom: 0.25rem;
+        }
+        
+        .volunteer-email {
+            color: var(--warm-gray);
+            font-size: 0.9rem;
+        }
+        
+        .volunteer-categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        
+        .category-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--light-cream);
+            color: var(--warm-orange);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: 1px solid var(--warm-orange);
+        }
+        
+        .volunteer-stats {
+            text-align: right;
+        }
+        
+        .stat-number {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+        }
+        
+        .stat-text {
+            color: var(--warm-gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Alert notification */
+        .alert-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--warm-orange);
+            z-index: 10000;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .request-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .dashboard-nav {
+                overflow-x: auto;
+            }
+            
+            .volunteer-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .volunteer-stats {
+                text-align: left;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading North Star Phoenix...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK from Cloudflare CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+
+    <script>
+        // Firebase Configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBYTdQNyOd0KVekfWVeiFYFVnyzmY_bqfc",
+  authDomain: "north-star-phoenix.firebaseapp.com",
+  projectId: "north-star-phoenix",
+  storageBucket: "north-star-phoenix.firebasestorage.app",
+  messagingSenderId: "553634870358",
+  appId: "1:553634870358:web:fbaaa5ecdeb0eea6d977f7",
+  measurementId: "G-9ZQ180G01B"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Categories
+        const CATEGORIES = [
+            'Grocery Delivery',
+            'Tech Assistance',
+            'Gardening',
+            'Transportation',
+            'Home Maintenance'
+        ];
+
+        // State
+        let currentUser = null;
+        let userData = null;
+        let currentView = 'login';
+        let activeTab = 'dashboard';
+        let requests = [];
+        let volunteers = [];
+
+        // Alert system
+        function showAlert(message, type = 'info') {
+            const alertBox = document.createElement('div');
+            alertBox.className = 'alert-box';
+            alertBox.style.borderLeftColor = type === 'error' ? 'var(--alert-red)' : 'var(--success-green)';
+            alertBox.textContent = message;
+            document.body.appendChild(alertBox);
+            
+            setTimeout(() => {
+                alertBox.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => alertBox.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize default admin
+        async function initializeDefaultAdmin() {
+            try {
+                // Try to sign in with admin credentials
+                try {
+                    await auth.signInWithEmailAndPassword('admin@northstarphoenix.org', 'NSP2026');
+                } catch (error) {
+                    // If admin doesn't exist, create it
+                    if (error.code === 'auth/user-not-found') {
+                        const userCredential = await auth.createUserWithEmailAndPassword('admin@northstarphoenix.org', 'NSP2026');
+                        await db.collection('users').doc(userCredential.user.uid).set({
+                            email: 'admin@northstarphoenix.org',
+                            name: 'Administrator',
+                            role: 'admin',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                }
+                await auth.signOut();
+            } catch (error) {
+                console.error('Error initializing admin:', error);
+            }
+        }
+
+        // Auth state observer
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentUser = user;
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                userData = userDoc.data();
+                if (userData) {
+                    currentView = 'dashboard';
+                    activeTab = userData.role === 'admin' ? 'dashboard' : 'available';
+                    await loadData();
+                    render();
+                }
+            } else {
+                currentUser = null;
+                userData = null;
+                currentView = 'login';
+                render();
+            }
+        });
+
+        // Load data
+        async function loadData() {
+            if (!currentUser) return;
+
+            // Load requests
+            const requestsSnapshot = await db.collection('requests').orderBy('createdAt', 'desc').get();
+            requests = requestsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            // Load volunteers (admin only)
+            if (userData.role === 'admin') {
+                const volunteersSnapshot = await db.collection('users').where('role', '==', 'volunteer').get();
+                volunteers = volunteersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            }
+        }
+
+        // Login/Register functions
+        async function handleLogin(email, password) {
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showAlert('Welcome back!', 'success');
+            } catch (error) {
+                showAlert('Login failed: ' + error.message, 'error');
+            }
+        }
+
+        async function handleRegister(name, email, password, categories) {
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    name,
+                    email,
+                    role: 'volunteer',
+                    categories,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    tasksCompleted: 0
+                });
+                showAlert('Account created successfully!', 'success');
+            } catch (error) {
+                showAlert('Registration failed: ' + error.message, 'error');
+            }
+        }
+
+        async function handleLogout() {
+            await auth.signOut();
+            showAlert('Logged out successfully', 'success');
+        }
+
+        // Request functions
+        async function createRequest(data) {
+            try {
+                await db.collection('requests').add({
+                    ...data,
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy: currentUser.uid
+                });
+                await loadData();
+                render();
+                showAlert('Request created successfully!', 'success');
+            } catch (error) {
+                showAlert('Error creating request: ' + error.message, 'error');
+            }
+        }
+
+        async function acceptRequest(requestId) {
+            try {
+                await db.collection('requests').doc(requestId).update({
+                    status: 'assigned',
+                    assignedTo: currentUser.uid,
+                    assignedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await loadData();
+                render();
+                showAlert('Request accepted! You can now see the requester details.', 'success');
+            } catch (error) {
+                showAlert('Error accepting request: ' + error.message, 'error');
+            }
+        }
+
+        async function completeRequest(requestId) {
+            try {
+                await db.collection('requests').doc(requestId).update({
+                    status: 'completed',
+                    completedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Update volunteer stats
+                await db.collection('users').doc(currentUser.uid).update({
+                    tasksCompleted: firebase.firestore.FieldValue.increment(1)
+                });
+                
+                await loadData();
+                render();
+                showAlert('Request marked as completed!', 'success');
+            } catch (error) {
+                showAlert('Error completing request: ' + error.message, 'error');
+            }
+        }
+
+        // Render functions
+        function render() {
+            const root = document.getElementById('root');
+            
+            if (currentView === 'login') {
+                root.innerHTML = renderLogin();
+                attachLoginListeners();
+            } else if (currentView === 'dashboard') {
+                root.innerHTML = renderDashboard();
+                attachDashboardListeners();
+            }
+        }
+
+        function renderLogin() {
+            return `
+                <div class="login-container">
+                    <div class="login-box">
+                        <div class="login-header">
+                            <div class="login-icon">★</div>
+                            <h2>North Star Phoenix</h2>
+                            <p>Connecting volunteers with community needs</p>
+                        </div>
+                        
+                        <div class="form-tabs">
+                            <button class="tab-btn active" data-tab="login">Login</button>
+                            <button class="tab-btn" data-tab="register">Register as Volunteer</button>
+                        </div>
+                        
+                        <div id="login-form">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="login-email" placeholder="your@email.com" value="admin@northstarphoenix.org">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="login-password" placeholder="Enter password" value="NSP2026">
+                            </div>
+                            <button class="btn-primary" id="btn-login">Sign In</button>
+                            <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--warm-gray);">
+                                Default admin credentials are pre-filled
+                            </p>
+                        </div>
+                        
+                        <div id="register-form" class="hidden">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="register-name" placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="register-email" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="register-password" placeholder="Create password">
+                            </div>
+                            <div class="form-group">
+                                <label>I can help with:</label>
+                                <div class="category-grid">
+                                    ${CATEGORIES.map(cat => `
+                                        <label class="category-checkbox">
+                                            <input type="checkbox" name="category" value="${cat}">
+                                            <span>${cat}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button class="btn-primary" id="btn-register">Create Account</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboard() {
+            return `
+                <div class="header">
+                    <div class="header-content">
+                        <div class="logo">
+                            <div class="logo-icon">★</div>
+                            <div class="logo-text">
+                                <h1>North Star Phoenix</h1>
+                                <p>Volunteer Coordination System</p>
+                            </div>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-badge">
+                                ${userData.name} • ${userData.role === 'admin' ? 'Administrator' : 'Volunteer'}
+                            </div>
+                            <button class="btn-logout" id="btn-logout">Logout</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-container">
+                    <div class="dashboard">
+                        ${renderDashboardNav()}
+                        ${renderActiveTab()}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboardNav() {
+            if (userData.role === 'admin') {
+                return `
+                    <div class="dashboard-nav">
+                        <button class="nav-tab ${activeTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">Dashboard</button>
+                        <button class="nav-tab ${activeTab === 'create' ? 'active' : ''}" data-tab="create">Create Request</button>
+                        <button class="nav-tab ${activeTab === 'all-requests' ? 'active' : ''}" data-tab="all-requests">All Requests</button>
+                        <button class="nav-tab ${activeTab === 'volunteers' ? 'active' : ''}" data-tab="volunteers">Volunteers</button>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="dashboard-nav">
+                        <button class="nav-tab ${activeTab === 'available' ? 'active' : ''}" data-tab="available">Available Requests</button>
+                        <button class="nav-tab ${activeTab === 'my-tasks' ? 'active' : ''}" data-tab="my-tasks">My Tasks</button>
+                        <button class="nav-tab ${activeTab === 'calendar' ? 'active' : ''}" data-tab="calendar">Calendar</button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderActiveTab() {
+            switch (activeTab) {
+                case 'dashboard':
+                    return renderAdminDashboard();
+                case 'create':
+                    return renderCreateRequest();
+                case 'all-requests':
+                    return renderAllRequests();
+                case 'volunteers':
+                    return renderVolunteers();
+                case 'available':
+                    return renderAvailableRequests();
+                case 'my-tasks':
+                    return renderMyTasks();
+                case 'calendar':
+                    return renderCalendar();
+                default:
+                    return '';
+            }
+        }
+
+        function renderAdminDashboard() {
+            const pending = requests.filter(r => r.status === 'pending').length;
+            const assigned = requests.filter(r => r.status === 'assigned').length;
+            const completed = requests.filter(r => r.status === 'completed').length;
+            
+            return `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Requests</div>
+                        <div class="stat-value">${pending}</div>
+                        <div class="stat-change">Awaiting volunteers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Tasks</div>
+                        <div class="stat-value">${assigned}</div>
+                        <div class="stat-change">In progress</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Completed</div>
+                        <div class="stat-value">${completed}</div>
+                        <div class="stat-change">This month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Volunteers</div>
+                        <div class="stat-value">${volunteers.length}</div>
+                        <div class="stat-change">Registered</div>
+                    </div>
+                </div>
+                
+                <h3 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin: 2rem 0 1rem;">Recent Requests</h3>
+                ${renderRequestsList(requests.slice(0, 5))}
+            `;
+        }
+
+        function renderCreateRequest() {
+            return `
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin-bottom: 2rem;">Create New Request</h2>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-soft);">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="new-category">
+                                ${CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Request Title</label>
+                            <input type="text" id="new-title" placeholder="Brief description of the need">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Detailed Description</label>
+                            <textarea id="new-description" rows="4" placeholder="Provide details about what help is needed..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Due Date & Time</label>
+                            <input type="datetime-local" id="new-due-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Requester Name</label>
+                            <input type="text" id="new-requester-name" placeholder="Senior citizen or disabled person's name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Requester Phone</label>
+                            <input type="tel" id="new-requester-phone" placeholder="(208) 555-0123">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Requester Address</label>
+                            <textarea id="new-requester-address" rows="2" placeholder="Street address, Grangeville, ID"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Additional Notes (Optional)</label>
+                            <textarea id="new-notes" rows="3" placeholder="Special instructions, parking info, etc."></textarea>
+                        </div>
+                        
+                        <button class="btn-primary" id="btn-create-request">Create Request</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAllRequests() {
+            return `
+                <h2 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin-bottom: 1.5rem;">All Requests</h2>
+                ${renderRequestsList(requests)}
+            `;
+        }
+
+        function renderVolunteers() {
+            return `
+                <h2 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin-bottom: 1.5rem;">Registered Volunteers</h2>
+                <div class="volunteer-list">
+                    ${volunteers.length > 0 ? volunteers.map(v => `
+                        <div class="volunteer-item">
+                            <div class="volunteer-info">
+                                <h4>${v.name}</h4>
+                                <div class="volunteer-email">${v.email}</div>
+                                <div class="volunteer-categories">
+                                    ${(v.categories || []).map(cat => `<span class="category-tag">${cat}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="volunteer-stats">
+                                <div class="stat-number">${v.tasksCompleted || 0}</div>
+                                <div class="stat-text">Tasks Completed</div>
+                            </div>
+                        </div>
+                    `).join('') : `
+                        <div class="empty-state">
+                            <div class="empty-icon">👥</div>
+                            <h3>No volunteers yet</h3>
+                            <p>Volunteers will appear here once they register!</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderAvailableRequests() {
+            const availableRequests = requests.filter(r => 
+                r.status === 'pending' && 
+                userData.categories && 
+                userData.categories.includes(r.category)
+            );
+            
+            return `
+                <h2 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin-bottom: 1.5rem;">Available Requests</h2>
+                <p style="color: var(--warm-gray); margin-bottom: 2rem;">These requests match your volunteer categories. Accept a request to see full details and help someone in need!</p>
+                ${renderRequestsList(availableRequests, true)}
+            `;
+        }
+
+        function renderMyTasks() {
+            const myTasks = requests.filter(r => r.assignedTo === currentUser.uid);
+            
+            return `
+                <h2 style="font-family: 'Merriweather', serif; color: var(--deep-blue); margin-bottom: 1.5rem;">My Tasks</h2>
+                ${renderRequestsList(myTasks, false, true)}
+            `;
+        }
+
+        function renderCalendar() {
+            const myTasks = requests.filter(r => 
+                r.assignedTo === currentUser.uid && 
+                r.status !== 'completed'
+            ).sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+            
+            return `
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <h2 class="calendar-title">Upcoming Tasks</h2>
+                    </div>
+                    ${myTasks.length > 0 ? `
+                        <div class="calendar-events">
+                            ${myTasks.map(task => `
+                                <div class="calendar-event">
+                                    <div class="event-time">${formatDateTime(task.dueDate)}</div>
+                                    <div class="event-title">${task.title} - ${task.category}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="empty-state">
+                            <div class="empty-icon">📅</div>
+                            <h3>No upcoming tasks</h3>
+                            <p>Check the Available Requests tab to accept new tasks!</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderRequestsList(requestsList, showAccept = false, showComplete = false) {
+            if (requestsList.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <h3>No requests found</h3>
+                        <p>Check back later for new opportunities to help!</p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="requests-container">
+                    ${requestsList.map(req => renderRequestCard(req, showAccept, showComplete)).join('')}
+                </div>
+            `;
+        }
+
+        function renderRequestCard(req, showAccept = false, showComplete = false) {
+            const canSeeDetails = userData.role === 'admin' || req.assignedTo === currentUser.uid;
+            
+            return `
+                <div class="request-card">
+                    <div class="request-header">
+                        <div>
+                            <h3 class="request-title">${req.title}</h3>
+                            <span class="request-category">${req.category}</span>
+                        </div>
+                        <span class="request-status status-${req.status}">${req.status.toUpperCase()}</span>
+                    </div>
+                    
+                    <div class="request-details">
+                        ${req.description}
+                    </div>
+                    
+                    <div class="request-meta">
+                        <div class="meta-item">
+                            <span>⏰</span>
+                            <span>Due: ${formatDateTime(req.dueDate)}</span>
+                        </div>
+                        ${req.assignedTo && userData.role === 'admin' ? `
+                            <div class="meta-item">
+                                <span>👤</span>
+                                <span>Assigned</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${canSeeDetails ? `
+                        <div class="requester-info">
+                            <h4>Contact Information</h4>
+                            <div class="info-row">
+                                <div class="info-label">Name:</div>
+                                <div class="info-value">${req.requesterName}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Phone:</div>
+                                <div class="info-value">${req.requesterPhone}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Address:</div>
+                                <div class="info-value">${req.requesterAddress}</div>
+                            </div>
+                            ${req.notes ? `
+                                <div class="info-row">
+                                    <div class="info-label">Notes:</div>
+                                    <div class="info-value">${req.notes}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                    
+                    ${showAccept && req.status === 'pending' ? `
+                        <div class="request-actions">
+                            <button class="btn-accept" data-request-id="${req.id}">Accept This Request</button>
+                        </div>
+                    ` : ''}
+                    
+                    ${showComplete && req.status === 'assigned' ? `
+                        <div class="request-actions">
+                            <button class="btn-primary btn-complete" data-request-id="${req.id}">Mark as Completed</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return 'Not set';
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric',
+                hour: 'numeric', 
+                minute: '2-digit'
+            });
+        }
+
+        // Event listeners
+        function attachLoginListeners() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const tab = btn.dataset.tab;
+                    document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+                    document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+                });
+            });
+
+            document.getElementById('btn-login')?.addEventListener('click', () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                handleLogin(email, password);
+            });
+
+            document.getElementById('btn-register')?.addEventListener('click', () => {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const checkboxes = document.querySelectorAll('input[name="category"]:checked');
+                const categories = Array.from(checkboxes).map(cb => cb.value);
+                
+                if (categories.length === 0) {
+                    showAlert('Please select at least one category you can help with', 'error');
+                    return;
+                }
+                
+                handleRegister(name, email, password, categories);
+            });
+
+            // Category checkbox styling
+            document.querySelectorAll('.category-checkbox').forEach(label => {
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', () => {
+                    label.classList.toggle('checked', checkbox.checked);
+                });
+            });
+        }
+
+        function attachDashboardListeners() {
+            document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
+
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activeTab = tab.dataset.tab;
+                    render();
+                });
+            });
+
+            document.getElementById('btn-create-request')?.addEventListener('click', async () => {
+                const data = {
+                    category: document.getElementById('new-category').value,
+                    title: document.getElementById('new-title').value,
+                    description: document.getElementById('new-description').value,
+                    dueDate: document.getElementById('new-due-date').value,
+                    requesterName: document.getElementById('new-requester-name').value,
+                    requesterPhone: document.getElementById('new-requester-phone').value,
+                    requesterAddress: document.getElementById('new-requester-address').value,
+                    notes: document.getElementById('new-notes').value
+                };
+                
+                if (!data.title || !data.description || !data.dueDate || !data.requesterName || !data.requesterPhone || !data.requesterAddress) {
+                    showAlert('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                await createRequest(data);
+                activeTab = 'all-requests';
+                render();
+            });
+
+            document.querySelectorAll('.btn-accept').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const requestId = btn.dataset.requestId;
+                    if (confirm('Accept this request? You will be able to see the requester\'s contact information.')) {
+                        acceptRequest(requestId);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.btn-complete').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const requestId = btn.dataset.requestId;
+                    if (confirm('Mark this task as completed?')) {
+                        completeRequest(requestId);
+                    }
+                });
+            });
+        }
+
+        // Initialize app
+        initializeDefaultAdmin().then(() => {
+            render();
+        });
+    </script>
+</body>
+</html>
